@@ -1,6 +1,7 @@
 import Utility from "_js/object/utility";
 import Control from "_js/object/control";
 import Grid from "_js/class/grid";
+import Sound from "_js/class/sound";
 
 //game loop
 export default {
@@ -16,6 +17,7 @@ export default {
     loadAsset() {
 
         this.grid = new Grid(20, 10);
+        this.sound = new Sound();
     },
 
     //register key down event listeners
