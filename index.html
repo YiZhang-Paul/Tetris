@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8" />
+	<title>Tetris Game</title>
+	<meta name="description" content="A Tetris game" />
+	<meta name="author" content="YI ZHANG" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" type="text/css" href="_css/style.css" />
+</head>
+<body>
+	<main>
+		<!-- brick tilesets -->
+		<img id="dark_blue" class="color" src="_images/blue_square.png" alt="block" />
+		<img id="lime" class="color" src="_images/lime_square.png" alt="block" />
+		<img id="orange" class="color" src="_images/orange_square.png" alt="block" />
+		<img id="purple" class="color" src="_images/purple_square.png" alt="block" />
+		<img id="red" class="color" src="_images/red_square.png" alt="block" />
+		<img id="teal" class="color" src="_images/teal_square.png" alt="block" />
+		<img id="yellow" class="color" src="_images/yellow_square.png" alt="block" />
+		<img id="blink" src="_images/grey_square.png" alt="block" />
+		<!-- viewport background image -->
+		<img id="viewBG" src="_images/viewport_background.png" alt="viewport" />
+		<!-- background music/sound effects -->
+		<audio id="bgMusic" src="_sound/background_track.mp3"></audio>
+		<audio id="impact" src="_sound/impact.wav"></audio>
+		<audio id="hard_impact" src="_sound/hard_impact.wav"></audio>
+		<audio id="move" src="_sound/move.wav"></audio>
+		<audio id="rotate" src="_sound/rotate.wav"></audio>
+		<audio id="level_up" src="_sound/level_up.wav"></audio>
+		<audio id="game_end" src="_sound/game_end.wav"></audio>
+		<audio id="row_clear" src="_sound/row_clear.wav"></audio>
+		<audio id="tetris" src="_sound/tetris.wav"></audio>
+		<section id="main">
+			<div class="leftPane">
+				<div id="hold" class="hold"><span>HOLD</span></div>
+				<div id="level" class="level"><span>LEVEL</span></div>
+			</div>
+			<div id="view" class="view"></div>
+			<div class="rightPane">
+				<div id="next" class="next"><span>NEXT</span></div>
+				<div id="score" class="score"><span>SCORE</span></div>
+				<div id="goal" class="goal"><span>GOAL</span></div>
+			</div>
+		</section>
+	</main>
+	<script src="_js/_class/grid.js"></script>	
+	<script src="_js/_class/_canvas/gameCanvas.js"></script>	
+	<script src="_js/_class/_canvas/viewport.js"></script>	
+	<script src="_js/_class/_canvas/hud.js"></script>	
+	<script src="_js/_class/_brick/brick.js"></script>	
+	<script src="_js/_class/_brick/block.js"></script>	
+	<script src="_js/_class/_brick/shapeSquare.js"></script>	
+	<script src="_js/_class/_brick/shapeLLeft.js"></script>	
+	<script src="_js/_class/_brick/shapeLRight.js"></script>	
+	<script src="_js/_class/_brick/shapeZLeft.js"></script>	
+	<script src="_js/_class/_brick/shapeZRight.js"></script>	
+	<script src="_js/_class/_brick/shapeI.js"></script>	
+	<script src="_js/_class/_brick/shapeT.js"></script>	
+	<script src="_js/_class/stateMachine.js"></script>	
+	<script src="_js/_class/brickManager.js"></script>	
+	<script src="_js/_class/sound.js"></script>	
+	<script src="_js/_object/control.js"></script>	
+	<script src="_js/_object/game.js"></script>	
+	<script src="_js/main.js"></script>	
+</body>
+</html>

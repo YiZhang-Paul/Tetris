@@ -1,0 +1,76 @@
+html, body, main {
+	box-sizing: border-box;
+	background: url(../_images/background.jpg) no-repeat;
+	background-size: 100% 100%;
+	background-color: black;
+	color: white;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+img {
+	display: none;
+}
+
+section {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.leftPane, .view, .rightPane {
+	display: inline-block;
+	position: relative;
+	width: 25%;
+	height: 98%;
+	margin-left: 2%;
+	margin-top: 0.5%;
+}
+
+.view {
+	width: 40%;
+}
+
+.hold, .next, .level, .score, .goal {
+	position: absolute;
+	width: 90%;
+	height: 30%;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.hold, .next {
+	top: 5%;
+}
+
+.level, .goal {
+	height: 20%;
+	top: 75%; 
+}
+
+.score {
+	height: 15%;
+	top: 50%;
+}
+
+span {
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	font-family: Arial, "Times New Roman";
+	font-weight: bold;
+	line-height: 150%;
+	font-size: 150%;
+	position: absolute;
+	z-index: 2;
+}
+
+canvas {
+	position: absolute;
+	border-radius: 15px;
+}
