@@ -1,6 +1,6 @@
 import Utility from "_js/object/utility";
-import Monitor from "_js/object/monitor";
 import Control from "_js/object/control";
+import Grid from "_js/class/grid";
 
 //game loop
 export default {
@@ -10,13 +10,12 @@ export default {
     viewport : null,
     manager  : null,
     hud      : null,
-    monitor  : Monitor,
     timeStep : 0,
     state    : null,
 
     loadAsset() {
 
-
+        this.grid = new Grid(20, 10);
     },
 
     //register key down event listeners
@@ -148,7 +147,7 @@ export default {
 
     reset() {
 
-
+        this.grid.reset();
     },
 
     stop() {
