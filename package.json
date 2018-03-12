@@ -1,0 +1,22 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "description": "simple tetris game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YiZhang-Paul/Tetris.git"
+  },
+  "author": "Yi Zhang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YiZhang-Paul/Tetris/issues"
+  },
+  "homepage": "https://github.com/YiZhang-Paul/Tetris#readme",
+  "dependencies": {
+    "systemjs": "^0.21.0"
+  }
+}

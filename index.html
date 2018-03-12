@@ -44,24 +44,31 @@
 			</div>
 		</section>
 	</main>
-	<script src="_js/_class/grid.js"></script>	
-	<script src="_js/_class/_canvas/gameCanvas.js"></script>	
-	<script src="_js/_class/_canvas/viewport.js"></script>	
-	<script src="_js/_class/_canvas/hud.js"></script>	
-	<script src="_js/_class/_brick/brick.js"></script>	
-	<script src="_js/_class/_brick/block.js"></script>	
-	<script src="_js/_class/_brick/shapeSquare.js"></script>	
-	<script src="_js/_class/_brick/shapeLLeft.js"></script>	
-	<script src="_js/_class/_brick/shapeLRight.js"></script>	
-	<script src="_js/_class/_brick/shapeZLeft.js"></script>	
-	<script src="_js/_class/_brick/shapeZRight.js"></script>	
-	<script src="_js/_class/_brick/shapeI.js"></script>	
-	<script src="_js/_class/_brick/shapeT.js"></script>	
-	<script src="_js/_class/stateMachine.js"></script>	
-	<script src="_js/_class/brickManager.js"></script>	
-	<script src="_js/_class/sound.js"></script>	
-	<script src="_js/_object/control.js"></script>	
-	<script src="_js/_object/game.js"></script>	
-	<script src="_js/main.js"></script>	
+
+	<script src="node_modules/systemjs/dist/system.js"></script>
+	<script>
+
+		System.config({
+
+			map: {
+
+				'plugin-babel': 'node_modules/systemjs-plugin-babel/plugin-babel.js',
+				'systemjs-babel-build': 'node_modules/systemjs-plugin-babel/systemjs-babel-browser.js'
+			},
+
+			transpiler: 'plugin-babel',
+
+			packages : {
+
+				"" : {
+
+					defaultExtension : "js"
+				}
+			}
+		});
+
+		System.import("index");
+
+	</script>
 </body>
 </html>
