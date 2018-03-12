@@ -2,6 +2,7 @@ import Utility from "_js/object/utility";
 import Control from "_js/object/control";
 import Grid from "_js/class/grid";
 import Sound from "_js/class/sound";
+import Viewport from "_js/class/canvas/viewport";
 
 //game loop
 export default {
@@ -18,6 +19,7 @@ export default {
 
         this.grid = new Grid(20, 10);
         this.sound = new Sound();
+        this.viewport = new Viewport(this);
     },
 
     //register key down event listeners
@@ -164,5 +166,6 @@ export default {
 
     draw() {
 
+        this.viewport.draw();
     }
 };
