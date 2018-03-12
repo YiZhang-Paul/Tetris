@@ -1,0 +1,4 @@
+#ignore all html and css files
+**/*.htm linguist-detectable=false
+**/*.html linguist-detectable=false
+**/*.css linguist-detectable=false
