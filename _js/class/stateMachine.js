@@ -49,11 +49,11 @@ export default class StateMachine {
         this.push(state);
     }
 
-    update(timeStep) {
+    update(timeStep, key) {
 
         if(this.active) {
 
-            this.originator[this.active](timeStep);
+            this.originator[this.active](timeStep, key);
         }
     }
 }

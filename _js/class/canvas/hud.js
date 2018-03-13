@@ -3,9 +3,10 @@ import GameCanvas from "_js/class/canvas/gameCanvas";
 //side bars displaying game related information
 export default class Hud extends GameCanvas {
 
-    constructor() {
+    constructor(originator) {
 
         super();
+        this.originator = originator;
         //canvases
         this.holdCtx = this.createCanvas(1, "hold");  //display current brick
         this.nextCtx = this.createCanvas(1, "next");  //display next brick
@@ -38,15 +39,15 @@ export default class Hud extends GameCanvas {
         //determine grid width for bricks
         const width = Math.min(
 
-            Math.round(parent.offsetWidth / brick.grids[0].length),
-            Math.round(parent.offsetHeight / brick.grids.length)
+            Math.round(parent.offsetWidth / brick.blocks[0].length),
+            Math.round(parent.offsetHeight / brick.blocks.length)
         );
 
-        for(let i = 0; i < brick.grids.length; i++) {
+        for(let i = 0; i < brick.blocks.length; i++) {
 
-            for(let j = 0; j < brick.grids[i].length; j++) {
+            for(let j = 0; j < brick.blocks[i].length; j++) {
 
-                if(brick.grids[i][j] === 1) {
+                if(brick.blocks[i][j] === 1) {
 
                     const x = j * width;
                     const y = i * width;
@@ -91,16 +92,16 @@ export default class Hud extends GameCanvas {
     }
 
     //notify current level and goal
-    drawLevelDetail(manager) {
+    drawLevelDetail() {
 
-        this.drawNumberDisplay("level", manager.level, 45);
-        this.drawNumberDisplay("goal", manager.goal, 35);
+        this.drawNumberDisplay("level", this.originator.level, 45);
+        this.drawNumberDisplay("goal", this.originator.goal, 35);
     }
 
-    draw(manager) {
+    draw() {
 
-        this.drawBrickDisplay(manager);
-        this.drawLevelDetail(manager);
-        this.drawNumberDisplay("score", manager.score);
+        this.drawBrickDisplay(this.originator.bricks);
+        this.drawNumberDisplay("score", this.originator.score);
+        this.drawLevelDetail();
     }
 }

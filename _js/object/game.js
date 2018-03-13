@@ -1,28 +1,13 @@
 import Utility from "_js/object/utility";
 import Control from "_js/object/control";
-import Grid from "_js/class/grid";
-import Sound from "_js/class/sound";
-import Viewport from "_js/class/canvas/viewport";
-import Hud from "_js/class/canvas/hud";
+import GameManager from "_js/class/gameManager";
 
 //game loop
 export default {
 
-    grid     : null,
-    sound    : null,
-    viewport : null,
-    hud      : null,
     manager  : null,
-    timeStep : 0,
     state    : null,
-
-    loadAsset() {
-
-        this.grid = new Grid(20, 10);
-        this.sound = new Sound();
-        this.viewport = new Viewport(this);
-        this.hud = new Hud();
-    },
+    timeStep : 0,
 
     //register key down event listeners
     registerKeyDown() {
@@ -98,7 +83,7 @@ export default {
 
     initialize() {
 
-        this.loadAsset();
+        this.manager = new GameManager();
         //register key controls
         this.registerKeyDown();
         this.registerKeyUp();
@@ -153,7 +138,7 @@ export default {
 
     reset() {
 
-        this.grid.reset();
+        this.manager.reset();
     },
 
     stop() {
@@ -163,11 +148,12 @@ export default {
 
     update() {
 
+        this.manager.update(this.timeStep, Control.releasedKey);
         Control.releasedKey = null;
     },
 
     draw() {
 
-        this.viewport.draw();
+        this.manager.draw();
     }
 };

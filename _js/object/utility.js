@@ -1,6 +1,12 @@
 //helper methods
 export default {
 
+    //retrieve current time in milliseconds
+    get now() {
+
+        return new Date().getTime();
+    },
+
     //round number to given decimal place
     roundTo(number, decimal = 0) {
 

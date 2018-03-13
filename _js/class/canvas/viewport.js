@@ -4,13 +4,13 @@ import GameCanvas from "_js/class/canvas/gameCanvas";
 //main display area for game contents
 export default class Viewport extends GameCanvas {
 
-    constructor(originator) {
+    constructor(grid) {
 
         super();
-        this.originator = originator;
+        this.grid = grid;
+        this.gridAreaWidth = null;
+        this.gridAreaHeight = null;
         this.interval = null;
-        this.gridWidth = null;
-        this.gridHeight = null;
         this.setDimension();
         this.resizeContainer();
         //create canvas
@@ -22,23 +22,21 @@ export default class Viewport extends GameCanvas {
         this.backColor = "darkgrey";
         this.lineColor = "grey";
         this.background = document.getElementById("viewBG");
-        this.draw();
     }
 
     setDimension() {
         //determine grid area dimension
-        let grid = this.originator.grid;
-        this.gridWidth = grid.width * grid.column;
-        this.gridHeight = grid.width * grid.row;
+        this.gridAreaWidth = this.grid.width * this.grid.column;
+        this.gridAreaHeight = this.grid.width * this.grid.row;
         //determine border width
         const viewWidth = Monitor.viewWidth;
         const viewHeight = Monitor.viewHeight;
         this.border = viewWidth > viewHeight ?
-            (viewHeight - this.gridHeight) * 0.33 :
-            (viewWidth - this.gridWidth) * 0.5;
+            (viewHeight - this.gridAreaHeight) * 0.33 :
+            (viewWidth - this.gridAreaWidth) * 0.5;
         //determine total dimension
-        this.width = this.gridWidth + 2 * this.border;
-        this.height = this.gridHeight + 3 * this.border;
+        this.width = this.gridAreaWidth + 2 * this.border;
+        this.height = this.gridAreaHeight + 3 * this.border;
     }
 
     resizeContainer() {
@@ -68,7 +66,7 @@ export default class Viewport extends GameCanvas {
 
     clearMessage(permanent) {
 
-        this.message.clearRect(0, 0, this.width, this.height);
+        this.messageCtx.clearRect(0, 0, this.width, this.height);
         //clear message permanently
         if(permanent) {
 
@@ -77,7 +75,7 @@ export default class Viewport extends GameCanvas {
         }
     }
 
-    drawMessage() {
+    drawMessage(message) {
 
         if(!this.interval) {
 
@@ -89,9 +87,9 @@ export default class Viewport extends GameCanvas {
                 //blink effect
                 if(step) {
 
-                    const width = this.gridWidth * 0.565;
-                    const height = this.gridHeight * 0.5;
-                    this.messageCtx.fillText("Press SPACE", width, height);
+                    const width = this.gridAreaWidth * 0.565;
+                    const height = this.gridAreaHeight * 0.5;
+                    this.messageCtx.fillText(message, width, height);
                 }
                 else {
 
@@ -117,8 +115,8 @@ export default class Viewport extends GameCanvas {
             this.background,
             this.border,
             this.border,
-            this.gridWidth,
-            this.gridHeight
+            this.gridAreaWidth,
+            this.gridAreaHeight
         );
 
         this.backCtx.restore();
@@ -126,20 +124,18 @@ export default class Viewport extends GameCanvas {
 
     drawGrid() {
 
-        let grid = this.originator.grid;
+        for(let i = 0; i < this.grid.logicLayer.length; i++) {
 
-        for(let i = 0; i < grid.logicLayer.length; i++) {
-
-            for(let j = 0; j < grid.logicLayer[i].length; j++) {
+            for(let j = 0; j < this.grid.logicLayer[i].length; j++) {
 
                 this.backCtx.beginPath();
 
                 this.backCtx.rect(
 
-                    j * grid.width + this.border,
-                    i * grid.width + this.border,
-                    grid.width,
-                    grid.width
+                    j * this.grid.width + this.border,
+                    i * this.grid.width + this.border,
+                    this.grid.width,
+                    this.grid.width
                 );
 
                 this.backCtx.strokeStyle = this.lineColor;
