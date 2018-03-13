@@ -154,6 +154,7 @@ export default class Brick {
         if(this.collideOnBottom()) {
 
             this.originator.sound.play(document.getElementById("impact"));
+            this.originator.saveLocation(this);
             this.originator.checkGameState();
 
             return;
@@ -188,6 +189,26 @@ export default class Brick {
         }
     }
 
+    //fall down passively (not controlled by users)
+    fallDown() {
+
+        if(this.onFallCooldown()) {
+
+            return;
+        }
+
+        if(this.collideOnBottom()) {
+
+            this.originator.sound.play(document.getElementById("impact"));
+            this.originator.saveLocation(this);
+            this.originator.checkGameState();
+
+            return;
+        }
+        //move one row down
+        this.location[0]++;
+        this.setFallCooldown();
+    }
 
     update(timeStep, actions) {
         //perform hard landing
