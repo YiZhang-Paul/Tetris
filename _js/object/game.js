@@ -148,7 +148,7 @@ export default {
 
     update() {
 
-        this.manager.update(this.timeStep, Control.releasedKey);
+        this.manager.update(this.timeStep);
         Control.releasedKey = null;
     },
 

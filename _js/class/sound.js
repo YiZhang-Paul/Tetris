@@ -19,9 +19,9 @@ export default class Sound {
         }
     }
 
-    play(sound, start = 0, volumn = 1, loop = false) {
+    play(sound, start = 0, volume = 1, loop = false) {
 
-        setup(sound, start);
+        this.setup(sound, start);
         //when sound is ready to play
         if(this.sounds.get(sound)) {
 

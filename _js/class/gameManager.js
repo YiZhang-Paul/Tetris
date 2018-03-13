@@ -42,23 +42,46 @@ export default class GameManager {
         return level * ((level - 1) * 150 + 600);
     }
 
+    checkGoal() {
+
+        if(this.score >= this.goal) {
+            //advance to next level if goal is met
+            this.toNextLevel();
+        }
+    }
+
+    toNextLevel() {
+
+        this.sound.play(document.getElementById("level_up"));
+        this.bricks.reset();
+        this.goal = this.getGoal(++this.level);
+        this.hud.drawLevelDetail();
+        this.state.swap("ongoing");
+    }
     /**
      * game states
      */
-    ready(timeStep, key) {
+    //ready state
+    ready(timeStep) {
 
         this.viewport.drawMessage("Press SPACE");
         //check game start
-        if(key === Control.SPACE) {
+        if(Control.releasedKey === Control.SPACE) {
 
             this.viewport.clearMessage(true);
             this.state.swap("ongoing");
         }
     }
+    //ongoing state
+    ongoing(timeStep) {
 
-    update(timeStep, key) {
+        this.bricks.update(timeStep);
+        this.sound.play(document.getElementById("bgMusic"), 0, 0.4, true);
+    }
 
-        this.state.update(timeStep, key);
+    update(timeStep) {
+
+        this.state.update(timeStep);
     }
 
     draw() {

@@ -31,6 +31,11 @@ export default {
     //console
     "CONSOLE" : 123,
 
+    get inputKeys() {
+
+        return [this.rotationKeys, this.movementKeys];
+    },
+
     isPressed(key) {
 
         return this.pressedKeys.has(key);

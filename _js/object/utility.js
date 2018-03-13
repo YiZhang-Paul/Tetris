@@ -23,5 +23,10 @@ export default {
 
             array.splice(index, 1);
         }
+    },
+
+    lastElement(array) {
+
+        return array.length === 0 ? null : array.slice(-1)[0];
     }
 }
