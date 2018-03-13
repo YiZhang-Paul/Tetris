@@ -94,6 +94,33 @@ export default class Brick {
     /**
      * collision detections
      */
+    canRotate(direction) {
+
+        let blocks = this[direction];
+        let logicLayer = this.originator.grid.logicLayer;
+
+        for(let i = 0; i < blocks.length; i++) {
+
+            for(let j = 0; j < blocks[i].length; j++) {
+
+                if(blocks[i][j] !== 1) {
+
+                    continue;
+                }
+
+                let row = logicLayer[this.location[0] + i];
+
+                if(row === undefined || row[this.location[1] + j] !== 0) {
+
+                    return false;
+                }
+
+            }
+        }
+
+        return true;
+    }
+
     collideOnBottom(row = this.location[0]) {
 
         let logicLayer = this.originator.grid.logicLayer;
@@ -149,6 +176,56 @@ export default class Brick {
     /**
      * brick movements
      */
+    //find next orientation after rotation
+    nextOrientation(direction) {
+
+        let orientations = this.originator.orientations;
+        //current orientation index
+        const oldIndex = orientations.indexOf(this.orientation);
+        const modifier = direction === "clockwise" ? 1 : -1;
+        //new orientation index
+        const newIndex = (oldIndex + modifier) % orientations.length;
+
+        return orientations[newIndex];
+    }
+
+    rotate(direction) {
+        //find new orientation
+        const orientation = this.nextOrientation(direction);
+
+        if(this.canRotate(orientation)) {
+
+            this.originator.sound.play(document.getElementById("rotate"));
+            this.orientation = orientation;
+            this.blocks = this[orientation];
+            this.setRotateCooldown();
+        }
+    }
+
+    getLandingDistance() {
+
+        const start = this.location[0];
+        let end = start;
+
+        while(!this.collideOnBottom(end)) {
+
+            end++;
+        }
+
+        return end - start;
+    }
+
+    //instantly land on bottom of the grid
+    hardLanding() {
+
+        this.originator.sound.play(document.getElementById("hard_impact"));
+        this.landingDistance = this.getLandingDistance();
+        //update brick location after landing
+        this.location[0] += this.landingDistance;
+        this.originator.saveLocation(this);
+        this.originator.checkGameState();
+    }
+
     moveDown() {
 
         if(this.collideOnBottom()) {
@@ -178,12 +255,17 @@ export default class Brick {
 
     move(action) {
 
+        if(new Set("clockwise", "counterclockwise").has(action) && !this.onRotateCooldown()) {
+
+            this.rotate(action);
+        }
+
         if(action === "down" && !this.onMoveDownCooldown) {
 
             this.moveDown();
         }
 
-        if(action !== "down" && !this.onSideMoveCooldown) {
+        if(new Set("left", "right").has(action) && !this.onSideMoveCooldown) {
 
             this.moveToSide(action);
         }
@@ -214,7 +296,7 @@ export default class Brick {
         //perform hard landing
         if(actions[0] === "landing") {
 
-            //TODO: hard landing
+            this.hardLanding();
 
             return;
         }
