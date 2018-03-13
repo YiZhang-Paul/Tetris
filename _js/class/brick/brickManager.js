@@ -14,6 +14,7 @@ export default class BrickManager {
         this.previousBrick = null;
         this.currentBrick = null;
         this.nextBrick = null;
+        this.ctx = originator.viewport.gridCtx;
     }
 
     //determine spawning grid for current active brick
@@ -69,15 +70,14 @@ export default class BrickManager {
 
                     const row = brick.location[0] + i;
                     const column = brick.location[1] + j;
-                    this.grid.logicLayer[row][column] = new Block(brick.color);
+                    let block = new Block(this.grid.width, brick.color, this.ctx);
+                    this.grid.logicLayer[row][column] = block;
                 }
             }
         }
     }
 
     update(timeStep, actions) {
-
-        console.log(actions);
 
         if(this.currentBrick !== null) {
 
@@ -106,7 +106,8 @@ export default class BrickManager {
 
         if(this.currentBrick !== null) {
 
-            this.currentBrick.draw();
+            const offset = this.originator.viewport.border;
+            this.currentBrick.draw(this.grid.width, offset, offset);
         }
 
         this.drawFallenBrick();

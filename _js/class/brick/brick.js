@@ -4,7 +4,7 @@ import Block from "_js/class/brick/block";
 
 export default class Brick {
 
-    constructor(originator, spawn, color, viewport, sound, fallSpeed = 1, orientation = "up") {
+    constructor(originator, color, orientation = "up") {
 
         this.originator = originator;
         this.up = null;
@@ -13,12 +13,11 @@ export default class Brick {
         this.left = null;
         this.blocks = [];
         this.orientation = orientation;
-        this.orientations = ["up", "right", "down", "left"];
         //brick positions
-        this.spawn = spawn;
-        this.location = spawn;
+        this.spawn = originator.spawnGrid;
+        this.location = this.spawn.slice();
         //movement and rotations
-        this.fallSpeed = fallSpeed; //passive falling speed
+        this.fallSpeed = originator.fallSpeed; //passive falling speed
         this.fallTimestamp = 0;
         this.defaultMoveDownSpeed = 50;
         this.moveDownSpeed = this.defaultMoveDownSpeed; //active move down speed
@@ -30,9 +29,7 @@ export default class Brick {
         this.landingDistance = 0;
         //brick appearance
         this.color = color;
-        this.sound = sound;
         this.tile = document.getElementById(color);
-        this.ctx = viewport.ctx;
     }
 
     get bottomRow() {
@@ -94,33 +91,69 @@ export default class Brick {
         this.rotateTimestamp = Utility.now;
     }
 
-    //check if given row collides with anything on its bottom
-    collideToBottom(row = this.location[0]) {
+    /**
+     * collision detections
+     */
+    collideOnBottom(row = this.location[0]) {
 
+        let logicLayer = this.originator.grid.logicLayer;
+
+        for(let i = 0; i < this.blocks.length; i++) {
+
+            for(let j = 0; j < this.blocks[i].length; j++) {
+
+                if(row + i >= 0 && this.blocks[i][j] === 1) {
+                    //check row below
+                    let nextRow = logicLayer[row + i + 1];
+
+                    if(nextRow === undefined || nextRow[this.location[1] + j] !== 0) {
+
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
-    collideToBottom(row = this.curGrid[0]) {
-		for(let i = 0; i < this.grids.length; i++) {
-			for(let j = 0; j < this.grids[i].length; j++) {
-				//check logic grids
-				if(row + i >= 0 && this.grids[i][j] == 1) {
-					let rowBelow = game.grid.logicGrid[row + i + 1];
-					if(rowBelow === undefined || rowBelow[this.curGrid[1] + j]) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
+    collideOnSide(direction) {
+
+        let logicLayer = this.originator.grid.logicLayer;
+
+        for(let i = 0; i < this.blocks.length; i++) {
+
+            for(let j = 0; j < this.blocks[i].length; j++) {
+
+                if(this.blocks[i][j] === 1) {
+
+                    const row = this.location[0] + i;
+                    //next column on given direction
+                    const column = this.location[1] + j + (direction === "left" ? -1 : 1);
+                    //check grid boundary
+                    const outOfBound = column < 0 || column > logicLayer[0].length - 1;
+                    //check other blocks
+                    const hitBlocks = logicLayer[row] && logicLayer[row][column] instanceof Block;
+
+                    if(outOfBound || hitBlocks) {
+
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     /**
      * brick movements
      */
     moveDown() {
 
-        if(this.collideToBottom()) {
+        if(this.collideOnBottom()) {
 
-            this.sound.play(document.getElementById("impact"));
+            this.originator.sound.play(document.getElementById("impact"));
             this.originator.checkGameState();
 
             return;
@@ -130,35 +163,62 @@ export default class Brick {
         this.setMoveDownCooldown();
     }
 
-    move(direction) {
+    moveToSide(direction) {
 
-        if(direction === "down" && !this.onMoveDownCooldown) {
+        if(this.collideOnSide(direction)) {
+
+            return;
+        }
+
+        this.originator.sound.play(document.getElementById("move"));
+        this.location[1] += direction === "left" ? -1 : 1;
+        this.setSideMoveCooldown();
+    }
+
+    move(action) {
+
+        if(action === "down" && !this.onMoveDownCooldown) {
 
             this.moveDown();
         }
 
-        if(direction !== "down" && !this.onSideMoveCooldown) {
+        if(action !== "down" && !this.onSideMoveCooldown) {
 
-            this.moveToSide();
+            this.moveToSide(action);
         }
     }
 
-    move(direction) {
-		switch(direction) {
-			//side move
-			case "left" :
-			case "right" :
-				if(!this.onSideMoveCD()) {
-					if(this.sideCollide(direction)) {
-						return;
-					}
-					//play sound effect
-					game.sound.playSound(document.getElementById("move"));
-					this.curGrid[1] = direction == "left" ?
-						this.curGrid[1] - 1 : this.curGrid[1] + 1;
-					this.setSideMoveCD();
-				}
-				break;
-		}
-	}
+
+    update(timeStep, actions) {
+        //perform hard landing
+        if(actions[0] === "landing") {
+
+            //TODO: hard landing
+
+            return;
+        }
+        //respond to other user controls
+        actions.forEach(action => {
+
+            this.move(action);
+        });
+
+        this.fallDown();
+    }
+
+    draw(gridWidth, offsetX, offsetY) {
+
+        for(let i = 0; i < this.blocks.length; i++) {
+
+            for(let j = 0; j < this.blocks[i].length; j++) {
+
+                if(this.location[0] + i >= 0 && this.blocks[i][j] === 1) {
+
+                    const x = (this.location[1] + j) * gridWidth + offsetX;
+                    const y = (this.location[0] + i) * gridWidth + offsetY;
+                    this.ctx.drawImage(this.tile, x, y, gridWidth, gridWidth);
+                }
+            }
+        }
+    }
 }
