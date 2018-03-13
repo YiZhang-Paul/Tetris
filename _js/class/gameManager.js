@@ -15,7 +15,7 @@ export default class GameManager {
         this.sound = new Sound();
         this.viewport = new Viewport(this.grid);
         this.hud = new Hud(this);
-        this.bricks = new BrickManager();
+        this.bricks = new BrickManager(this);
         this.score = null;
         this.level = null;
         this.goal = null;

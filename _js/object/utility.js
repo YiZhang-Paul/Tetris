@@ -28,5 +28,11 @@ export default {
     lastElement(array) {
 
         return array.length === 0 ? null : array.slice(-1)[0];
+    },
+
+    //find number in the middle of a given range
+    findMiddle(value) {
+
+        return value % 2 ? (value + 1) * 0.5 : value * 0.5;
     }
 }
