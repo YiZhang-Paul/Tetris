@@ -3,6 +3,7 @@ import Control from "_js/object/control";
 import Grid from "_js/class/grid";
 import Sound from "_js/class/sound";
 import Viewport from "_js/class/canvas/viewport";
+import Hud from "_js/class/canvas/hud";
 
 //game loop
 export default {
@@ -10,8 +11,8 @@ export default {
     grid     : null,
     sound    : null,
     viewport : null,
-    manager  : null,
     hud      : null,
+    manager  : null,
     timeStep : 0,
     state    : null,
 
@@ -20,6 +21,7 @@ export default {
         this.grid = new Grid(20, 10);
         this.sound = new Sound();
         this.viewport = new Viewport(this);
+        this.hud = new Hud();
     },
 
     //register key down event listeners
