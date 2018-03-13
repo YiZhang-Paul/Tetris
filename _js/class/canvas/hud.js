@@ -36,6 +36,7 @@ export default class Hud extends GameCanvas {
 
         let parent = document.getElementById(id);
         let ctx = this[id + "Ctx"];
+        //TODO: potential bug for brick icon blocks
         //determine grid width for bricks
         const width = Math.min(
 

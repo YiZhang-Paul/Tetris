@@ -1,4 +1,5 @@
 import StateMachine from "_js/class/stateMachine";
+import Utility from "_js/object/utility";
 import Control from "_js/object/control";
 import Grid from "_js/class/grid";
 import Sound from "_js/class/sound";
@@ -23,11 +24,6 @@ export default class GameManager {
         this.initialize();
     }
 
-    reset() {
-
-        this.initialize();
-    }
-
     initialize() {
 
         this.score = 0;
@@ -35,6 +31,57 @@ export default class GameManager {
         this.goal = this.getGoal(this.level);
         this.state = new StateMachine(this, "ready");
         this.viewport.draw();
+    }
+
+    reset() {
+
+        this.initialize();
+    }
+
+    //retrieve effective user input keys
+    getKeys() {
+
+        if(Control.releasedKey === Control.SPACE) {
+            //stop immediately when hard landing key is found
+            return [Control.SPACE];
+        }
+        //check other input keys
+        return Control.inputKeys.filter(set => set.length).map(Utility.lastElement);
+    }
+
+    //convert input key to corresponding action
+    readKey(key) {
+
+        switch(key) {
+
+            case Control.SPACE :
+
+                return "landing";
+
+            case Control.W : case Control.UP :
+
+                return "clockwise";
+
+            case Control.S : case Control.DOWN :
+
+                return "down";
+
+            case Control.A : case Control.LEFT :
+
+                return "left";
+
+            case Control.D : case Control.RIGHT :
+
+                return "right";
+        }
+
+        return null;
+    }
+
+    //retrieve valid user actions
+    readUserAction() {
+
+        return this.getKeys().map(this.readKey);
     }
 
     getGoal(level) {
@@ -62,7 +109,7 @@ export default class GameManager {
      * game states
      */
     //ready state
-    ready(timeStep) {
+    ready(timeStep, actions) {
 
         this.viewport.drawMessage("Press SPACE");
         //check game start
@@ -72,16 +119,17 @@ export default class GameManager {
             this.state.swap("ongoing");
         }
     }
-    //ongoing state
-    ongoing(timeStep) {
 
-        this.bricks.update(timeStep);
+    //ongoing state
+    ongoing(timeStep, actions) {
+
         this.sound.play(document.getElementById("bgMusic"), 0, 0.4, true);
+        this.bricks.update(timeStep, actions);
     }
 
     update(timeStep) {
 
-        this.state.update(timeStep);
+        this.state.update(timeStep, this.readUserAction());
     }
 
     draw() {

@@ -1,5 +1,6 @@
 import Control from "_js/object/control";
 import Utility from "_js/object/utility";
+import Block from "_js/class/brick/block";
 
 //manage all bricks in game
 export default class BrickManager {
@@ -57,59 +58,47 @@ export default class BrickManager {
         }, duration);
     }
 
-    //retrieve effective user input keys
-    getKeys() {
+    //record brick location on logic layer
+    saveLocation(brick = this.currentBrick) {
 
-        if(Control.releasedKey === Control.SPACE) {
-            //stop immediately when hard landing key is found
-            return [Control.SPACE];
+        for(let i = 0; i < brick.blocks.length; i++) {
+
+            for(let j = 0; j < brick.blocks[i].length; j++) {
+
+                if(brick.location[0] + i >= 0 && brick.blocks[i][j] === 1) {
+
+                    const row = brick.location[0] + i;
+                    const column = brick.location[1] + j;
+                    this.grid.logicLayer[row][column] = new Block(brick.color);
+                }
+            }
         }
-        //check other input keys
-        return Control.inputKeys.filter(set => set.length).map(Utility.lastElement);
     }
 
-    //convert input key to corresponding action
-    readKey(key) {
+    update(timeStep, actions) {
 
-        switch(key) {
-
-            case Control.SPACE :
-
-                return "landing";
-
-            case Control.W : case Control.UP :
-
-                return "clockwise";
-
-            case Control.S : case Control.DOWN :
-
-                return "down";
-
-            case Control.A : case Control.LEFT :
-
-                return "left";
-
-            case Control.D : case Control.RIGHT :
-
-                return "right";
-        }
-
-        return null;
-    }
-
-    //retrieve valid user actions
-    readUserAction() {
-
-        return this.getKeys().map(this.readKey);
-    }
-
-    update(timeStep) {
-
-        console.log(this.readUserAction());
+        console.log(actions);
 
         if(this.currentBrick !== null) {
 
-            this.currentBrick.update(timeStep, this.readUserAction());
+            this.currentBrick.update(timeStep, actions);
+        }
+    }
+
+    drawFallenBrick() {
+
+        let logicLayer = this.grid.logicLayer;
+        const offset = this.originator.viewport.border;
+
+        for(let i = 0; i < logicLayer.length; i++) {
+
+            for(let j = 0; j < logicLayer[i].length; j++) {
+                //draw every block on logic layer
+                if(logicLayer[i][j] instanceof Block) {
+
+                    logicLayer[i][j].draw(i, j, offset, offset);
+                }
+            }
         }
     }
 
@@ -119,5 +108,7 @@ export default class BrickManager {
 
             this.currentBrick.draw();
         }
+
+        this.drawFallenBrick();
     }
 }

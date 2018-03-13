@@ -15,8 +15,8 @@ export default class Brick {
         this.orientation = orientation;
         this.orientations = ["up", "right", "down", "left"];
         //brick positions
-        this.spawnGrid = spawn;
-        this.currentGrid = spawn;
+        this.spawn = spawn;
+        this.location = spawn;
         //movement and rotations
         this.fallSpeed = fallSpeed; //passive falling speed
         this.fallTimestamp = 0;
@@ -29,6 +29,7 @@ export default class Brick {
         this.rotateTimestamp = 0;
         this.landingDistance = 0;
         //brick appearance
+        this.color = color;
         this.sound = sound;
         this.tile = document.getElementById(color);
         this.ctx = viewport.ctx;
@@ -94,7 +95,7 @@ export default class Brick {
     }
 
     //check if given row collides with anything on its bottom
-    collideToBottom(row = this.currentGrid[0]) {
+    collideToBottom(row = this.location[0]) {
 
     }
 
@@ -125,7 +126,7 @@ export default class Brick {
             return;
         }
         //move one row down
-        this.currentGrid[0]++;
+        this.location[0]++;
         this.setMoveDownCooldown();
     }
 
