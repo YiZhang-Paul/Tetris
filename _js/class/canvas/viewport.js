@@ -1,6 +1,7 @@
 import Monitor from "_js/object/monitor";
 import GameCanvas from "_js/class/canvas/gameCanvas";
 
+//main display area for game contents
 export default class Viewport extends GameCanvas {
 
     constructor(originator) {

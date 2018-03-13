@@ -1,5 +1,6 @@
 import GameCanvas from "_js/class/canvas/gameCanvas";
 
+//side bars displaying game related information
 export default class Hud extends GameCanvas {
 
     constructor() {
