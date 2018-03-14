@@ -15,6 +15,34 @@ export default {
         return Math.round(number * multiplier) / multiplier;
     },
 
+    getRange(start, total) {
+
+        let range = new Array(total).fill(0);
+
+        return range.map((value, index) => start + index);
+    },
+
+    //retrieve random value between two given numbers(inclusive)
+    getRandom(min, max) {
+
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+
+    //return a shuffled copy of given array
+    shuffle(array) {
+
+        let copy = array.slice();
+        let shuffled = [];
+
+        for(let i = 0; i < array.length; i++) {
+
+            const index = this.getRandom(0, copy.length - 1);
+            shuffled.push(copy.splice(index, 1)[0]);
+        }
+
+        return shuffled;
+    },
+
     remove(array, element) {
 
         const index = array.indexOf(element);
