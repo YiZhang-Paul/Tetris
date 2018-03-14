@@ -36,19 +36,19 @@ export default class Hud extends GameCanvas {
 
         let parent = document.getElementById(id);
         let ctx = this[id + "Ctx"];
-        //TODO: potential bug for brick icon blocks
+        let blocks = brick[brick.orientation + "Icon"];
         //determine grid width for bricks
         const width = Math.min(
 
-            Math.round(parent.offsetWidth / brick.blocks[0].length),
-            Math.round(parent.offsetHeight / brick.blocks.length)
+            Math.round(parent.offsetWidth / blocks[0].length),
+            Math.round(parent.offsetHeight / blocks.length)
         );
 
-        for(let i = 0; i < brick.blocks.length; i++) {
+        for(let i = 0; i < blocks.length; i++) {
 
-            for(let j = 0; j < brick.blocks[i].length; j++) {
+            for(let j = 0; j < blocks[i].length; j++) {
 
-                if(brick.blocks[i][j] === 1) {
+                if(blocks[i][j] === 1) {
 
                     const x = j * width;
                     const y = i * width;
