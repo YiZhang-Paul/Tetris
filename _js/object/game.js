@@ -26,7 +26,6 @@ export default {
                 case Control.W : case Control.UP :
 
                     Control.addKeyPress(Control.rotationKeys, key);
-                    Control.addKeyHeld(key);
 
                     break;
                 //movement keys
@@ -35,10 +34,15 @@ export default {
                 case Control.D : case Control.RIGHT :
 
                     Control.addKeyPress(Control.movementKeys, key);
-                    Control.addKeyHeld(key);
 
                     break;
+
+                default :
+
+                    Control.addKeyPress(null, key);
             }
+
+            Control.addKeyHeld(key);
         });
     },
 
@@ -73,11 +77,8 @@ export default {
                     break;
             }
 
-            if(tracker !== null) {
-
-                Control.removeKeyPress(tracker, Control.releasedKey);
-                Control.removeKeyHeld(Control.releasedKey);
-            }
+            Control.removeKeyPress(tracker, Control.releasedKey);
+            Control.removeKeyHeld(Control.releasedKey);
         });
     },
 

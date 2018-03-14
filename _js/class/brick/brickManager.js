@@ -34,9 +34,9 @@ export default class BrickManager {
     //determine falling speed for current active brick according to game level
     get fallSpeed() {
 
-        const level = this.originator.level ? this.originator.level : 1;
+        const level = this.originator.level ? this.originator.level : 0;
 
-        return Math.max(500 - (level - 1) * 35, 45);
+        return Math.max(500 - level * 35, 45);
     }
 
     //retrieve most recent hard landing distance

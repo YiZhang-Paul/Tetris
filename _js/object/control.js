@@ -59,8 +59,9 @@ export default {
         if(Array.isArray(tracker) && !this.isPressed(key)) {
 
             tracker.push(key);
-            this.pressedKeys.add(key);
         }
+        //always keep reference to all keys pressed
+        this.pressedKeys.add(key);
     },
 
     removeKeyPress(tracker, key) {
@@ -68,8 +69,9 @@ export default {
         if(Array.isArray(tracker) && this.isPressed(key)) {
 
             Utility.remove(tracker, key);
-            this.pressedKeys.delete(key);
         }
+
+        this.pressedKeys.delete(key);
     },
 
     addKeyHeld(key) {

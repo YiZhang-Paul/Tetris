@@ -33,7 +33,7 @@ export default class GameManager {
     initialize() {
 
         this.score = 0;
-        this.level = 1;
+        this.level = 0;
         this.goal = this.getGoal(this.level);
         this.viewport.draw();
         this.hud.draw();
@@ -50,7 +50,7 @@ export default class GameManager {
     //retrieve effective user input keys
     getKeys() {
 
-        if(Control.releasedKey === Control.SPACE) {
+        if(Control.pressedKeys.has(Control.SPACE) && !Control.isHeld(Control.SPACE, 200)) {
             //stop immediately when hard landing key is found
             return [Control.SPACE];
         }
@@ -108,7 +108,7 @@ export default class GameManager {
         const base = table[rowsCleared] ? table[rowsCleared] : table[4];
         const bonus = this.bricks.hardLandDistance * 10;
 
-        return base * this.level + bonus;
+        return base * (this.level + 1) + bonus;
     }
 
     updateScore(rowsCleared) {
@@ -121,7 +121,7 @@ export default class GameManager {
 
     getGoal(level) {
 
-        return level * ((level - 1) * 150 + 600);
+        return Math.max(800, level * (level * 600 + 1000));
     }
 
     checkGoal() {
