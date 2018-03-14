@@ -32,19 +32,6 @@ export default class Brick {
         this.tile = document.getElementById(color);
     }
 
-    get bottomRow() {
-
-        for(let i = this.blocks.length - 1; i >= 0; i--) {
-            //check if the row contains at least one block
-            if(new Set(this.blocks[i]).has(1)) {
-
-                return i;
-            }
-        }
-
-        return 0;
-    }
-
     /**
      * cooldown lookups
      */

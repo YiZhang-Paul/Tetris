@@ -121,7 +121,7 @@ export default class GameManager {
 
     getGoal(level) {
 
-        return Math.max(800, level * (level * 600 + 1000));
+        return Math.max(600, level * (level * 550 + 800));
     }
 
     checkGoal() {

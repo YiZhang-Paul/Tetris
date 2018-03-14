@@ -36,7 +36,7 @@ export default class BrickManager {
 
         const level = this.originator.level ? this.originator.level : 0;
 
-        return Math.max(500 - level * 35, 45);
+        return Math.max(350 - level * 15, 20);
     }
 
     //retrieve most recent hard landing distance
@@ -84,7 +84,7 @@ export default class BrickManager {
         const middleColumn = Utility.findMiddle(this.grid.column);
         const middleBlock = Utility.findMiddle(brick.blocks[0].length);
 
-        brick.spawn = [-brick.bottomRow - 1, middleColumn - middleBlock];
+        brick.spawn = [-this.grid.row, middleColumn - middleBlock];
         brick.location = brick.spawn.slice();
     }
 
