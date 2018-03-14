@@ -35,15 +35,16 @@ export default class GameManager {
         this.score = 0;
         this.level = 1;
         this.goal = this.getGoal(this.level);
-        this.state = new StateMachine(this, "ready");
         this.viewport.draw();
         this.hud.draw();
+        this.state = new StateMachine(this, "ready");
     }
 
     reset() {
 
-        this.initialize();
+        this.grid.reset();
         this.bricks.reset();
+        this.initialize();
     }
 
     //retrieve effective user input keys
@@ -99,10 +100,10 @@ export default class GameManager {
             return 0;
         }
         //base score table
-        this.table = {
+        const table = Object.freeze({
 
             1 : 40, 2 : 100, 3 : 300, 4 : 1200
-        };
+        });
         //base score and bonus score based on hard landing distance
         const base = table[rowsCleared] ? table[rowsCleared] : table[4];
         const bonus = this.bricks.hardLandDistance * 10;
@@ -185,6 +186,7 @@ export default class GameManager {
 
                 this.bricks.clearRows(rows);
                 this.bricks.stopBlink();
+                this.bricks.toNextBrick();
                 //update score and check goal
                 this.updateScore(rows.length);
                 this.checkGoal();

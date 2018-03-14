@@ -60,6 +60,7 @@ export default class BrickManager {
 
         this.randomBag.reset();
         this.previousBrick = null;
+        this.initialize();
     }
 
     getRandomColor() {
@@ -134,8 +135,6 @@ export default class BrickManager {
 
         if(!this.timeout) {
 
-            this.currentBrick = null;
-
             this.timeout = setTimeout(() => {
 
                 this.swapBrick();
@@ -168,9 +167,10 @@ export default class BrickManager {
 
     checkGameState(brick = this.currentBrick) {
 
+        this.currentBrick = null;
+        this.previousBrick = brick;
         let rowsCleared = this.findFullRowIndexes();
         this.originator.checkGameState(rowsCleared.length);
-        this.previousBrick = brick;
     }
 
     isTetris(rowsCleared) {
