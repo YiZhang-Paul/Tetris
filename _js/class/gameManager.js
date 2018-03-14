@@ -148,7 +148,7 @@ export default class GameManager {
             return;
         }
 
-        //TODO: next bricks
+        this.bricks.toNextBrick();
     }
 
     /**

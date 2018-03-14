@@ -25,6 +25,7 @@ export default class BrickManager {
         this.nextBrick = null;
         this.timeout = null;
         this.interval = null;
+        this.hud = originator.hud;
         this.viewport = originator.viewport;
         this.ctx = this.viewport.gridCtx;
         this.initialize();
@@ -111,7 +112,7 @@ export default class BrickManager {
 
         this.currentBrick = this.nextBrick;
         this.nextBrick = this.createBrick();
-        this.hud.drawBrickDisplay();
+        this.hud.drawBrickDisplay(this);
     }
 
     //disallow user from actively moving a brick for a period of time
@@ -127,6 +128,24 @@ export default class BrickManager {
             clearTimeout(timeout);
 
         }, duration);
+    }
+
+    toNextBrick() {
+
+        if(!this.timeout) {
+
+            this.currentBrick = null;
+
+            this.timeout = setTimeout(() => {
+
+                this.swapBrick();
+                this.forbidMove(this.currentBrick);
+
+                clearTimeout(this.timeout);
+                this.timeout = null;
+
+            }, 500);
+        }
     }
 
     //record brick location on logic layer
