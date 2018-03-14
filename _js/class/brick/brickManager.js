@@ -40,6 +40,17 @@ export default class BrickManager {
         return Math.max(500 - (level - 1) * 35, 45);
     }
 
+    //retrieve most recent hard landing distance
+    get hardLandDistance() {
+
+        if(this.previousBrick === null) {
+
+            return 0;
+        }
+
+        return this.previousBrick.landingDistance;
+    }
+
     reset() {
 
         this.previousBrick = null;
@@ -76,6 +87,11 @@ export default class BrickManager {
                 }
             }
         }
+    }
+
+    isTetris(rowsCleared) {
+
+        return rowsCleared >= 4;
     }
 
     //check if given row is filled with blocks

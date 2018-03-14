@@ -38,6 +38,7 @@ export default class GameManager {
     reset() {
 
         this.initialize();
+        this.bricks.reset();
     }
 
     //retrieve effective user input keys
@@ -84,6 +85,32 @@ export default class GameManager {
     readUserAction() {
 
         return this.getKeys().map(this.readKey);
+    }
+
+    calculateScore(rowsCleared) {
+
+        if(rowsCleared === 0) {
+
+            return 0;
+        }
+        //base score table
+        this.table = {
+
+            1 : 40, 2 : 100, 3 : 300, 4 : 1200
+        };
+        //base score and bonus score based on hard landing distance
+        const base = table[rowsCleared] ? table[rowsCleared] : table[4];
+        const bonus = this.bricks.hardLandDistance * 10;
+
+        return base * this.level + bonus;
+    }
+
+    updateScore(rowsCleared) {
+
+        this.score += this.calculateScore(rowsCleared);
+        this.hud.drawScore();
+        const soundId = this.bricks.isTetris(rowsCleared) ? "tetris" : "row_clear";
+        this.sound.play(document.getElementById(soundId));
     }
 
     getGoal(level) {
@@ -141,6 +168,9 @@ export default class GameManager {
 
                 this.bricks.clearRows(rows);
                 this.bricks.stopBlink();
+                //update score and check goal
+                this.updateScore(rows.length);
+                this.checkGoal();
                 this.state.swap("ongoing");
 
                 clearTimeout(this.timeout);

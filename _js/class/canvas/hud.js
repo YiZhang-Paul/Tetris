@@ -92,6 +92,11 @@ export default class Hud extends GameCanvas {
         this.drawNumber(id, number, fontSize);
     }
 
+    drawScore() {
+
+        this.drawNumberDisplay("score", this.originator.score);
+    }
+
     //notify current level and goal
     drawLevelDetail() {
 
@@ -102,7 +107,7 @@ export default class Hud extends GameCanvas {
     draw() {
 
         this.drawBrickDisplay(this.originator.bricks);
-        this.drawNumberDisplay("score", this.originator.score);
+        this.drawScore();
         this.drawLevelDetail();
     }
 }
