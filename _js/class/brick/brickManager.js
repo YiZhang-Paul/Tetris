@@ -101,7 +101,7 @@ export default class BrickManager {
     }
 
     //blink all blocks on given rows
-    blinkRow(indexes) {
+    blinkRows(indexes) {
 
         if(!this.interval) {
 
@@ -116,6 +116,15 @@ export default class BrickManager {
                 });
 
             }, 100);
+        }
+    }
+
+    stopBlink() {
+
+        if(this.interval) {
+
+            clearInterval(this.interval);
+            this.interval = null;
         }
     }
 

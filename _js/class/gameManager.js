@@ -20,6 +20,7 @@ export default class GameManager {
         this.score = null;
         this.level = null;
         this.goal = null;
+        this.timeout = null;
         this.state = null;
         this.initialize();
     }
@@ -31,6 +32,7 @@ export default class GameManager {
         this.goal = this.getGoal(this.level);
         this.state = new StateMachine(this, "ready");
         this.viewport.draw();
+        this.hud.draw();
     }
 
     reset() {
@@ -125,6 +127,46 @@ export default class GameManager {
 
         this.sound.play(document.getElementById("bgMusic"), 0, 0.4, true);
         this.bricks.update(timeStep, actions);
+    }
+
+    //clearing state
+    clearing() {
+
+        if(!this.timeout) {
+            //find rows to clear
+            let rows = this.bricks.findFullRowIndexes();
+            this.bricks.blinkRows(rows);
+            //clear filled rows when blink is finished
+            this.timeout = setTimeout(() => {
+
+                this.bricks.clearRows(rows);
+                this.bricks.stopBlink();
+                this.state.swap("ongoing");
+
+                clearTimeout(this.timeout);
+                this.timeout = null;
+
+            }, 700);
+        }
+    }
+
+    //buffering state
+    buffering() {
+
+        if(!this.timeout) {
+
+            this.sound.resetAll();
+            this.sound.play(document.getElementById("game_end"));
+
+            this.timeout = setTimeout(() => {
+
+                this.reset();
+
+                clearTimeout(this.timeout);
+                this.timeout = null;
+
+            }, 3500);
+        }
     }
 
     update(timeStep) {
