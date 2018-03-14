@@ -19,7 +19,7 @@ export default class Brick {
         //movement and rotations
         this.fallSpeed = originator.fallSpeed; //passive falling speed
         this.fallTimestamp = 0;
-        this.defaultMoveDownSpeed = 50;
+        this.defaultMoveDownSpeed = 34;
         this.moveDownSpeed = this.defaultMoveDownSpeed; //active move down speed
         this.moveDownTimestamp = 0;
         this.sideMoveSpeed = 50;
@@ -90,18 +90,19 @@ export default class Brick {
 
             for(let j = 0; j < blocks[i].length; j++) {
 
-                if(blocks[i][j] !== 1) {
+                const row = this.location[0] + i;
+                const column = this.location[1] + j;
+                const inRange = column >= 0 && column < logicLayer[0].length;
+                //allow rotation in imaginary rows above visible grids
+                if(blocks[i][j] !== 1 || (row < 0 && inRange)) {
 
                     continue;
                 }
 
-                let row = logicLayer[this.location[0] + i];
-
-                if(row === undefined || row[this.location[1] + j] !== 0) {
+                if(logicLayer[row] === undefined || logicLayer[row][column] !== 0) {
 
                     return false;
                 }
-
             }
         }
 
