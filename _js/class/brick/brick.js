@@ -4,7 +4,7 @@ import Block from "_js/class/brick/block";
 
 export default class Brick {
 
-    constructor(originator, color, orientation = "up") {
+    constructor(originator, color, orientation) {
 
         this.originator = originator;
         this.up = null;
