@@ -14,6 +14,7 @@ export default class BrickManager {
         this.previousBrick = null;
         this.currentBrick = null;
         this.nextBrick = null;
+        this.interval = null;
         this.ctx = originator.viewport.gridCtx;
     }
 
@@ -75,6 +76,69 @@ export default class BrickManager {
                 }
             }
         }
+    }
+
+    //check if given row is filled with blocks
+    isFull(row) {
+
+        return row.every(column => column instanceof Block);
+    }
+
+    //find indexes of all rows filled with blocks
+    findFullRowIndexes() {
+
+        let indexes = [];
+
+        for(let i = this.grid.logicLayer.length - 1; i >= 0; i--) {
+
+            if(this.isFull(this.grid.logicLayer[i])) {
+
+                indexes.push(i);
+            }
+        }
+
+        return indexes;
+    }
+
+    //blink all blocks on given rows
+    blinkRow(indexes) {
+
+        if(!this.interval) {
+
+            this.interval = setInterval(() => {
+
+                indexes.forEach(index => {
+
+                    this.grid.logicLayer[index].forEach(block => {
+
+                        block.blink();
+                    });
+                });
+
+            }, 100);
+        }
+    }
+
+    clearRows(indexes) {
+
+        let toDelete = new Set(indexes);
+        let oldLayer = this.grid.logicLayer;
+        let newLayer = [];
+        //copy all rows that will not be deleted
+        for(let i = 0; i < oldLayer.length; i++) {
+
+            if(!toDelete.has(i)) {
+
+                newLayer.push(oldLayer[i]);
+            }
+        }
+        //refill deleted rows with empty rows
+        for(let i = 0; i < indexes.length; i++) {
+
+            newLayer.unshift(this.grid.createRow());
+        }
+
+        this.grid.logicLayer = newLayer;
     }
 
     update(timeStep, actions) {

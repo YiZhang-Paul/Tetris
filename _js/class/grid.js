@@ -26,13 +26,18 @@ export default class Grid {
         );
     }
 
+    createRow(value = 0) {
+
+        return new Array(this.column).fill(value);
+    }
+
     createLayer() {
 
         let layer = [];
 
         for(let i = 0; i < this.row; i++) {
 
-            layer.push(new Array(this.column).fill(0));
+            layer.push(this.createRow());
         }
 
         return layer;
