@@ -25,6 +25,11 @@ export default class GameManager {
         this.initialize();
     }
 
+    get gameFailed() {
+
+        return this.grid.logicLayer[0].some(block => block !== 0);
+    }
+
     initialize() {
 
         this.score = 0;
@@ -134,6 +139,19 @@ export default class GameManager {
         this.hud.drawLevelDetail();
         this.state.swap("ongoing");
     }
+
+    checkGameState(rowsCleared) {
+
+        if(this.gameFailed || rowsCleared > 0) {
+
+            this.state.swap(this.gameFailed ? "buffering" : "clearing");
+
+            return;
+        }
+
+        //TODO: next bricks
+    }
+
     /**
      * game states
      */

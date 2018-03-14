@@ -15,7 +15,8 @@ export default class BrickManager {
         this.currentBrick = null;
         this.nextBrick = null;
         this.interval = null;
-        this.ctx = originator.viewport.gridCtx;
+        this.viewport = originator.viewport;
+        this.ctx = this.viewport.gridCtx;
     }
 
     //determine spawning grid for current active brick
@@ -87,6 +88,13 @@ export default class BrickManager {
                 }
             }
         }
+    }
+
+    checkGameState(brick = this.currentBrick) {
+
+        let rowsCleared = this.findFullRowIndexes();
+        this.originator.checkGameState(rowsCleared.length);
+        this.previousBrick = brick;
     }
 
     isTetris(rowsCleared) {
@@ -177,7 +185,7 @@ export default class BrickManager {
     drawFallenBrick() {
 
         let logicLayer = this.grid.logicLayer;
-        const offset = this.originator.viewport.border;
+        const offset = this.viewport.border;
 
         for(let i = 0; i < logicLayer.length; i++) {
 
@@ -195,7 +203,7 @@ export default class BrickManager {
 
         if(this.currentBrick !== null) {
 
-            const offset = this.originator.viewport.border;
+            const offset = this.viewport.border;
             this.currentBrick.draw(this.grid.width, offset, offset);
         }
 

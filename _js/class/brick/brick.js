@@ -223,7 +223,7 @@ export default class Brick {
         //update brick location after landing
         this.location[0] += this.landingDistance;
         this.originator.saveLocation(this);
-        this.originator.checkGameState();
+        this.originator.checkGameState(this);
     }
 
     moveDown() {
@@ -232,7 +232,7 @@ export default class Brick {
 
             this.originator.sound.play(document.getElementById("impact"));
             this.originator.saveLocation(this);
-            this.originator.checkGameState();
+            this.originator.checkGameState(this);
 
             return;
         }
@@ -283,7 +283,7 @@ export default class Brick {
 
             this.originator.sound.play(document.getElementById("impact"));
             this.originator.saveLocation(this);
-            this.originator.checkGameState();
+            this.originator.checkGameState(this);
 
             return;
         }
