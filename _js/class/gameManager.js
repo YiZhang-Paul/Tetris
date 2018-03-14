@@ -134,7 +134,6 @@ export default class GameManager {
     toNextLevel() {
 
         this.sound.play(document.getElementById("level_up"));
-        this.bricks.reset();
         this.goal = this.getGoal(++this.level);
         this.hud.drawLevelDetail();
         this.state.swap("ongoing");

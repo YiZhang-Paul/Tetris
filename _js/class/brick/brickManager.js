@@ -23,9 +23,11 @@ export default class BrickManager {
         this.previousBrick = null;
         this.currentBrick = null;
         this.nextBrick = null;
+        this.timeout = null;
         this.interval = null;
         this.viewport = originator.viewport;
         this.ctx = this.viewport.gridCtx;
+        this.initialize();
     }
 
     //determine spawning grid for current active brick
@@ -59,6 +61,12 @@ export default class BrickManager {
         }
 
         return this.previousBrick.landingDistance;
+    }
+
+    initialize() {
+
+        this.currentBrick = this.createBrick();
+        this.nextBrick = this.createBrick();
     }
 
     reset() {
@@ -96,6 +104,13 @@ export default class BrickManager {
         else if(type === 4) return new BrickI(this, color, orientation);
         else if(type === 5) return new BrickT(this, color, orientation);
         else return new BrickSquare(this, color, orientation);
+    }
+
+    swapBrick() {
+
+        this.currentBrick = this.nextBrick;
+        this.nextBrick = this.createBrick();
+        this.hud.drawBrickDisplay();
     }
 
     //disallow user from actively moving a brick for a period of time
