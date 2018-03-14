@@ -1,6 +1,7 @@
 import Control from "_js/object/control";
 import Utility from "_js/object/utility";
 import Block from "_js/class/brick/block";
+import RandomBag from "_js/class/brick/randomBag";
 
 //manage all bricks in game
 export default class BrickManager {
@@ -11,6 +12,7 @@ export default class BrickManager {
         this.grid = originator.grid;
         this.sound = originator.sound;
         this.orientations = ["up", "right", "down", "left"];
+        this.randomBag = new RandomBag(7);
         this.previousBrick = null;
         this.currentBrick = null;
         this.nextBrick = null;
@@ -54,6 +56,7 @@ export default class BrickManager {
 
     reset() {
 
+        this.randomBag.reset();
         this.previousBrick = null;
     }
 
