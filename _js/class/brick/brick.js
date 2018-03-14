@@ -14,8 +14,8 @@ export default class Brick {
         this.blocks = [];
         this.orientation = orientation;
         //brick positions
-        this.spawn = originator.spawnGrid;
-        this.location = this.spawn.slice();
+        this.spawn = null
+        this.location = null;
         //movement and rotations
         this.fallSpeed = originator.fallSpeed; //passive falling speed
         this.fallTimestamp = 0;

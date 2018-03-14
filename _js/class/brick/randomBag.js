@@ -11,7 +11,6 @@ export default class RandomBag {
         this.total = total; //total types of bricks
         this.bag = [];
         this.fill();
-        console.log(this);
     }
 
     reset() {

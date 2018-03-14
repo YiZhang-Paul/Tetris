@@ -2,6 +2,13 @@ import Control from "_js/object/control";
 import Utility from "_js/object/utility";
 import Block from "_js/class/brick/block";
 import RandomBag from "_js/class/brick/randomBag";
+import BrickLLeft from "_js/class/brick/brickLLeft";
+import BrickLRight from "_js/class/brick/brickLRight";
+import BrickZLeft from "_js/class/brick/brickZLeft";
+import BrickZRight from "_js/class/brick/brickZRight";
+import BrickI from "_js/class/brick/brickI";
+import BrickT from "_js/class/brick/brickT";
+import BrickSquare from "_js/class/brick/BrickSquare";
 
 //manage all bricks in game
 export default class BrickManager {
@@ -58,6 +65,37 @@ export default class BrickManager {
 
         this.randomBag.reset();
         this.previousBrick = null;
+    }
+
+    getRandomColor() {
+        //retrieve all available colors
+        let colors = document.getElementsByClassName("color");
+        const index = Utility.getRandom(0, colors.length - 1);
+
+        return colors[index].id;
+    }
+
+    getRandomOrientation() {
+
+        const index = Utility.getRandom(0, this.orientations.length - 1);
+
+        return this.orientations[index];
+    }
+
+    createBrick() {
+
+        const type = this.randomBag.pop();
+        //randomize appearance
+        const color = this.getRandomColor();
+        const orientation = this.getRandomOrientation();
+
+        if(type === 0) return new BrickLLeft(this, color, orientation);
+        else if(type === 1) return new BrickLRight(this, color, orientation);
+        else if(type === 2) return new BrickZLeft(this, color, orientation);
+        else if(type === 3) return new BrickZRight(this, color, orientation);
+        else if(type === 4) return new BrickI(this, color, orientation);
+        else if(type === 5) return new BrickT(this, color, orientation);
+        else return new BrickSquare(this, color, orientation);
     }
 
     //disallow user from actively moving a brick for a period of time
