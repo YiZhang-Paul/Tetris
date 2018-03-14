@@ -20,10 +20,11 @@ export default class BrickSquare extends Brick {
         //icons
         this.upIcon = [
 
-            [0, 0, 0, 0],
-            [0, 1, 1, 0],
-            [0, 1, 1, 0],
-            [0, 0, 0, 0]
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 1, 0, 0],
+            [0, 0, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0]
         ];
 
         this.downIcon = this.upIcon;

@@ -41,6 +41,7 @@ export default class BrickLRight extends Brick {
         this.upIcon = [
 
             [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
             [0, 0, 1, 0, 0],
             [0, 0, 1, 0, 0],
             [0, 0, 1, 1, 0],
@@ -49,15 +50,17 @@ export default class BrickLRight extends Brick {
 
         this.downIcon = [
 
-            [0, 0, 0, 0, 0],
-            [0, 1, 1, 0, 0],
-            [0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0]
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 1, 0, 0],
+            [0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0]
         ];
 
         this.leftIcon = [
 
+            [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 0, 1, 0],
             [0, 1, 1, 1, 0],
@@ -66,6 +69,7 @@ export default class BrickLRight extends Brick {
 
         this.rightIcon = [
 
+            [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 1, 1, 1, 0],
             [0, 1, 0, 0, 0],

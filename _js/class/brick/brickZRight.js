@@ -28,6 +28,7 @@ export default class BrickZRight extends Brick {
         this.upIcon = [
 
             [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
             [0, 0, 1, 0, 0],
             [0, 0, 1, 1, 0],
             [0, 0, 0, 1, 0],
@@ -36,6 +37,7 @@ export default class BrickZRight extends Brick {
 
         this.leftIcon = [
 
+            [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 1, 1, 0],
             [0, 1, 1, 0, 0],
