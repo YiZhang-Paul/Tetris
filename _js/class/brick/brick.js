@@ -255,7 +255,7 @@ export default class Brick {
 
     move(action) {
 
-        if(new Set("clockwise", "counterclockwise").has(action) && !this.onRotateCooldown()) {
+        if(new Set(["clockwise", "counterclockwise"]).has(action) && !this.onRotateCooldown) {
 
             this.rotate(action);
         }
@@ -265,7 +265,7 @@ export default class Brick {
             this.moveDown();
         }
 
-        if(new Set("left", "right").has(action) && !this.onSideMoveCooldown) {
+        if(new Set(["left", "right"]).has(action) && !this.onSideMoveCooldown) {
 
             this.moveToSide(action);
         }
@@ -274,7 +274,7 @@ export default class Brick {
     //fall down passively (not controlled by users)
     fallDown() {
 
-        if(this.onFallCooldown()) {
+        if(this.onFallCooldown) {
 
             return;
         }
@@ -319,7 +319,7 @@ export default class Brick {
 
                     const x = (this.location[1] + j) * gridWidth + offsetX;
                     const y = (this.location[0] + i) * gridWidth + offsetY;
-                    this.ctx.drawImage(this.tile, x, y, gridWidth, gridWidth);
+                    this.originator.ctx.drawImage(this.tile, x, y, gridWidth, gridWidth);
                 }
             }
         }

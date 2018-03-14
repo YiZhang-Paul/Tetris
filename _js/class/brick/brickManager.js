@@ -30,20 +30,6 @@ export default class BrickManager {
         this.initialize();
     }
 
-    //determine spawning grid for current active brick
-    get spawnGrid() {
-
-        if(this.currentBrick === null) {
-
-            return null;
-        }
-        //try spawning the brick as close to center as possible
-        const middleColumn = Utility.findMiddle(this.grid.column);
-        const middleBlock = Utility.findMiddle(this.currentBrick.blocks[0].length);
-
-        return [-this.currentBrick.bottomRow - 1, middleColumn - middleBlock];
-    }
-
     //determine falling speed for current active brick according to game level
     get fallSpeed() {
 
@@ -90,20 +76,35 @@ export default class BrickManager {
         return this.orientations[index];
     }
 
+    //determine spawning grid for current active brick
+    setSpawnGrid(brick) {
+        //try spawning the brick as close to center as possible
+        const middleColumn = Utility.findMiddle(this.grid.column);
+        const middleBlock = Utility.findMiddle(brick.blocks[0].length);
+
+        brick.spawn = [-brick.bottomRow - 1, middleColumn - middleBlock];
+        brick.location = brick.spawn.slice();
+    }
+
     createBrick() {
 
-        const type = this.randomBag.pop();
+        let brick = null;
         //randomize appearance
+        const type = this.randomBag.pop();
         const color = this.getRandomColor();
         const orientation = this.getRandomOrientation();
 
-        if(type === 0) return new BrickLLeft(this, color, orientation);
-        else if(type === 1) return new BrickLRight(this, color, orientation);
-        else if(type === 2) return new BrickZLeft(this, color, orientation);
-        else if(type === 3) return new BrickZRight(this, color, orientation);
-        else if(type === 4) return new BrickI(this, color, orientation);
-        else if(type === 5) return new BrickT(this, color, orientation);
-        else return new BrickSquare(this, color, orientation);
+        if(type === 0) brick = new BrickLLeft(this, color, orientation);
+        else if(type === 1) brick = new BrickLRight(this, color, orientation);
+        else if(type === 2) brick = new BrickZLeft(this, color, orientation);
+        else if(type === 3) brick = new BrickZRight(this, color, orientation);
+        else if(type === 4) brick = new BrickI(this, color, orientation);
+        else if(type === 5) brick = new BrickT(this, color, orientation);
+        else brick = new BrickSquare(this, color, orientation);
+
+        this.setSpawnGrid(brick);
+
+        return brick;
     }
 
     swapBrick() {
@@ -256,6 +257,8 @@ export default class BrickManager {
     }
 
     draw() {
+
+        this.viewport.clearGrid();
 
         if(this.currentBrick !== null) {
 
