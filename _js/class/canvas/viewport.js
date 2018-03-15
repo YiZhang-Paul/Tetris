@@ -17,11 +17,16 @@ export default class Viewport extends GameCanvas {
         this.backCtx = this.createCanvas(1, "view");
         this.gridCtx = this.createCanvas(2, "view");
         this.messageCtx = this.createCanvas(3, "view");
-        this.setFont(this.messageCtx, "20px Arial", "center", "white");
+        this.setFont(this.messageCtx, this.fontSize, "center", "white");
         //draw canvas
         this.backColor = "darkgrey";
         this.lineColor = "grey";
         this.background = document.getElementById("viewBG");
+    }
+
+    get fontSize() {
+
+        return this.gridAreaWidth / 8;
     }
 
     setDimension() {
@@ -47,9 +52,9 @@ export default class Viewport extends GameCanvas {
     }
 
     //set font style of given canvas
-    setFont(canvas, font, textAlign, color) {
+    setFont(canvas, fontSize, textAlign, color) {
 
-        canvas.font = font;
+        canvas.font = fontSize + "px Arial";
         canvas.textAlign = textAlign;
         canvas.fillStyle = color;
     }

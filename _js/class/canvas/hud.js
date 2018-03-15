@@ -32,6 +32,23 @@ export default class Hud extends GameCanvas {
         ctx.restore();
     }
 
+    drawTitle(id, title) {
+
+        let parent = document.getElementById(id);
+        let ctx = this[id + "Ctx"];
+
+        ctx.font = parent.offsetWidth / 6 + "px Arial";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "white";
+
+        ctx.fillText(
+
+            title,
+            parent.offsetWidth * 0.5,
+            parent.offsetWidth * 0.2
+        );
+    }
+
     drawBrickIcon(id, brick) {
 
         let parent = document.getElementById(id);
@@ -59,12 +76,12 @@ export default class Hud extends GameCanvas {
     }
 
     //draw single number on given canvas
-    drawNumber(id, number, fontSize = 25, lineHeight = 0.7) {
+    drawNumber(id, number, lineHeight = 0.75) {
 
         let parent = document.getElementById(id);
         let ctx = this[id + "Ctx"];
 
-        ctx.font = fontSize + "px Arial";
+        ctx.font = parent.offsetWidth / 5 + "px Arial";
         ctx.textAlign = "center";
         ctx.fillStyle = "white";
 
@@ -80,28 +97,31 @@ export default class Hud extends GameCanvas {
     drawBrickDisplay(manager) {
 
         this.drawBackground("hold");
+        this.drawTitle("hold", "HOLD");
         this.drawBrickIcon("hold", manager.currentBrick);
         this.drawBackground("next");
+        this.drawTitle("next", "NEXT");
         this.drawBrickIcon("next", manager.nextBrick);
     }
 
     //draw number display board
-    drawNumberDisplay(id, number, fontSize) {
+    drawNumberDisplay(id, title, number) {
 
         this.drawBackground(id);
-        this.drawNumber(id, number, fontSize);
+        this.drawTitle(id, title);
+        this.drawNumber(id, number);
     }
 
     drawScore() {
 
-        this.drawNumberDisplay("score", this.originator.score);
+        this.drawNumberDisplay("score", "SCORE", this.originator.score);
     }
 
     //notify current level and goal
     drawLevelDetail() {
 
-        this.drawNumberDisplay("level", this.originator.level, 45);
-        this.drawNumberDisplay("goal", this.originator.goal, 35);
+        this.drawNumberDisplay("level", "LEVEL", this.originator.level);
+        this.drawNumberDisplay("goal", "GOAL", this.originator.goal);
     }
 
     draw() {
