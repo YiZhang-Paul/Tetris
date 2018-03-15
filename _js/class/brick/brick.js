@@ -22,7 +22,7 @@ export default class Brick {
         this.defaultMoveDownSpeed = 34;
         this.moveDownSpeed = this.defaultMoveDownSpeed; //active move down speed
         this.moveDownTimestamp = 0;
-        this.sideMoveSpeed = 50;
+        this.sideMoveSpeed = 70;
         this.sideMoveTimestamp = 0;
         this.rotateSpeed = 175;
         this.rotateTimestamp = 0;
