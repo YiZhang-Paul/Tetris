@@ -51,7 +51,7 @@ export default {
         //retrieve timestamp of initial key press
         const timestamp = this.heldKeys.get(key);
 
-        return new Date().getTime() - timestamp >= threshold;
+        return Utility.now - timestamp >= threshold;
     },
 
     addKeyPress(tracker, key) {
@@ -78,7 +78,7 @@ export default {
         //record time of initial key press
         if(!this.heldKeys.has(key)) {
 
-            this.heldKeys.set(key, new Date().getTime());
+            this.heldKeys.set(key, Utility.now);
         }
     },
 

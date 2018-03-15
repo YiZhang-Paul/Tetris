@@ -63,7 +63,7 @@ export default class BrickManager {
         this.initialize();
     }
 
-    getRandomColor() {
+    pickColor() {
         //retrieve all available colors
         let colors = document.getElementsByClassName("color");
         const index = Utility.getRandom(0, colors.length - 1);
@@ -71,7 +71,7 @@ export default class BrickManager {
         return colors[index].id;
     }
 
-    getRandomOrientation() {
+    pickOrientation() {
 
         const index = Utility.getRandom(0, this.orientations.length - 1);
 
@@ -93,8 +93,8 @@ export default class BrickManager {
         let brick = null;
         //randomize appearance
         const type = this.randomBag.pop();
-        const color = this.getRandomColor();
-        const orientation = this.getRandomOrientation();
+        const color = this.pickColor();
+        const orientation = this.pickOrientation();
 
         if(type === 0) brick = new BrickLLeft(this, color, orientation);
         else if(type === 1) brick = new BrickLRight(this, color, orientation);

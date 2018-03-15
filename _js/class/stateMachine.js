@@ -1,3 +1,5 @@
+import Utility from "_js/object/utility";
+
 //stack based finite state machine
 export default class StateMachine {
 
@@ -16,7 +18,7 @@ export default class StateMachine {
     //current active state
     get active() {
 
-        return this.states.length ? this.states.slice(-1)[0] : null;
+        return Utility.lastElement(this.states);
     }
 
     reset() {

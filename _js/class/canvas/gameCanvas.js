@@ -2,9 +2,9 @@ export default class GameCanvas {
 
     constructor() {
 
-        this.border = null;
-        this.width = null;
-        this.height = null;
+        this.border = null; //border width
+        this.width = null;  //total width including borders
+        this.height = null; //total height including borders
     }
 
     createCanvas(zIndex, id) {

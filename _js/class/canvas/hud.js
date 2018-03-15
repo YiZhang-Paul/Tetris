@@ -39,7 +39,7 @@ export default class Hud extends GameCanvas {
 
         ctx.font = parent.offsetWidth / 6 + "px Arial";
         ctx.textAlign = "center";
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "orange";
 
         ctx.fillText(
 
