@@ -30,12 +30,10 @@ The game uses floating mechanism for blocks instead of chain-reaction when lines
 
 ## "Bag" Random Generator
 
-The game implements "bag" random generator to ensure every type of block will occur once and exactly once every 7 moves (as there are a total of 7 block types). Refer to [wiki][wiki page] page for more details.
+The game implements "bag" random generator to ensure every type of block will occur once and exactly once every 7 moves (as there are a total of 7 block types).
 
 ## License
 
 Copyright (c) 2018 Yi Zhang
 
 Licensed under the [MIT](LICENSE) License.
-
-[wiki page]: https://github.com/YiZhang-Paul/Tetris/wiki "Wiki"
